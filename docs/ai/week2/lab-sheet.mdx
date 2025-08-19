@@ -1,0 +1,173 @@
+---
+id: lab-sheet-1
+title: Labsheet
+sidebar_position: 2
+hide_title: true
+sidebar_label: Lab 1
+sidebar_class_name: icon-lab
+
+---
+import ModuleBanner from '@site/src/components/ai/ai-banner';
+
+<ModuleBanner />
+
+# Lab 1: Supervised Learning - Regression 🚗
+
+#### 🎯 Objective
+To build a **simple linear regression model** that predicts a car’s **fuel efficiency (Miles Per Gallon, MPG)** based on its **weight**.
+
+---
+
+#### 📊 Dataset
+We’ll use the **Auto MPG dataset**, which contains technical specifications for various car models from the 1970s and 1980s.
+For simplicity, we’ll load it directly from a public source.
+
+---
+
+#### 🛠️ Prerequisites
+Make sure you have Python installed with the following libraries:
+
+```bash
+pip install pandas numpy matplotlib scikit-learn
+```
+### Step 1: Setup and Data Loading
+First, we need to import the necessary libraries and load our data into a pandas DataFrame. This allows us to easily view and manipulate the data.
+
+```python
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# Load the dataset from a URL
+# The dataset uses '?' for missing values, so we'll tell pandas to recognize them
+url = 'https://raw.githubusercontent.com/mwaskom/seaborn-data/master/mpg.csv'
+df = pd.read_csv(url)
+
+# Display the first 5 rows to see what the data looks like
+print("First 5 rows of the dataset:")
+print(df.head())
+# Get a quick summary of the data
+print("\nDataset Information:")
+df.info()
+```
+Explanation:
+* We've loaded the data and used .head() to peek at it.
+* The .info() command shows us the columns, the number of entries, and their data types.
+* We can see 'horsepower' has some missing values and is incorrectly typed as an 'object' (text) because of the missing data.
+
+### Step 2: Data Cleaning and Preparation
+
+Real-world data is rarely perfect. We need to handle the missing values in the 'horsepower' column. A simple strategy is to replace the missing values with the median of the column.
+```python
+# Check for missing values
+print("\nMissing values before cleaning:")
+print(df.isnull().sum())
+
+# The 'horsepower' column has 6 missing values. Let's handle them.
+# First, calculate the median of the horsepower column
+median_hp = df['horsepower'].median()
+
+# Now, fill the missing values with the median
+df['horsepower'].fillna(median_hp, inplace=True)
+
+# Confirm that the missing values are gone
+print("\nMissing values after cleaning:")
+print(df.isnull().sum())
+```
+Explanation:
+* We identified 6 missing values in 'horsepower'.
+* By filling them with the median value, we can now use this column for our analysis without errors.
+* The inplace=True argument modifies the DataFrame directly.
+
+### Step 3: Exploratory Data Analysis (EDA)
+Before building a model, it's crucial to visualize the data to understand the relationships between variables. Let's plot the relationship between the car's weight and its MPG.
+```python
+# Create a scatter plot to visualize the relationship
+plt.figure(figsize=(10, 6))
+plt.scatter(df['weight'], df['mpg'])
+plt.title('MPG vs. Weight of the Car')
+plt.xlabel('Weight (lbs)')
+plt.ylabel('Miles Per Gallon (MPG)')
+plt.grid(True)
+plt.show()
+```
+Explanation:
+* The plot clearly shows a negative linear relationship: as the weight of the car increases, its MPG tends to decrease.
+* This confirms that 'weight' is a good feature to use for predicting 'mpg'.
+
+### Step 4: Feature Selection and Data Splitting
+Now, we define our "question" (the features, X) and our "answer" (the target, y). We will then split our data into training and testing sets. The model learns from the training set and is evaluated on the unseen testing set.
+```python
+# Select our feature (X) and target (y)
+# For this lab, we'll use only 'weight' to predict 'mpg'
+X = df[['weight']]  # Features must be in a 2D format (a DataFrame)
+y = df['mpg']      # Target is a 1D format (a Series)
+
+# Split the data into training and testing sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print(f"\nTraining set size: {X_train.shape[0]} samples")
+print(f"Testing set size: {X_test.shape[0]} samples")
+```
+Explanation:
+* We've designated 'weight' as our feature X and 'mpg' as our target y.
+* We then split the data, holding back 20% of it to test our model's performance later.
+* random_state=42 ensures that the split is the same every time we run the code.
+
+### Step 5: Model Training
+* It's time to train our Linear Regression model!
+* We'll create an instance of the model and use the .fit() method to learn the relationship between weight and MPG from our training data.
+
+```python
+# Create an instance of the Linear Regression model
+model = LinearRegression()
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+print("\nModel training complete!")
+```
+Explanation:
+* The .fit() function is the core of the training process.
+* The model has now learned the optimal straight line that best describes the relationship in the training data.
+
+### Step 6: Model Evaluation
+
+* Now, let's see how well our trained model performs on the unseen test data.
+* We'll make predictions and compare them to the actual MPG values using the R-squared ($$\R^2$$) metric.
+```python
+# Make predictions on the test data
+y_pred = model.predict(X_test)
+
+# Calculate the R-squared value of the model
+# R-squared tells us what proportion of the variance in the target is predictable from the feature
+r2 = r2_score(y_test, y_pred)
+
+print(f"\nR-squared of the model on the test set: {r2:.4f}")
+
+# Let's also visualize the regression line on the test data
+plt.figure(figsize=(10, 6))
+plt.scatter(X_test, y_test, color='blue', label='Actual MPG')
+plt.plot(X_test, y_pred, color='red', linewidth=2, label='Predicted MPG (Regression Line)')
+plt.title('Model Performance on Test Data')
+plt.xlabel('Weight (lbs)')
+plt.ylabel('Miles Per Gallon (MPG)')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+Explanation:
+An $$R^2$$ value of around 0.69 means that approximately 69% of the variability in the MPG can be explained by the car's weight using our model.
+The plot shows our regression line, which represents the model's predictions, cutting through the actual data points.
+
+To work on this week's exercise, please open the notebook in Google Colab by clicking the badge below.
+<a
+    href="https://colab.research.google.com/github/rakeshwbs/wbs-courses/blob/main/static/notebooks/week3/wk3-practical-example.ipynb"
+    target="_blank"
+>
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>

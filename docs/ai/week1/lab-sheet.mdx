@@ -1,0 +1,77 @@
+---
+id: lab-sheet
+title: Lab sheet 1
+hide_title: true
+sidebar_position: 2
+sidebar_label: Intro with Python
+sidebar_class_name: icon-lab
+---
+import ModuleBanner from '@site/src/components/ai/ai-banner';
+
+<ModuleBanner />
+
+## Week 1 Lab: Setting Up Your AI Development Environment
+<div class="dq-block">
+    <div class="dq-head">
+        <h3 class="dq-title">🎯 Lab Objective</h3>
+    </div>
+    <p class="dq-intro">
+        The goal of this lab is to install all the necessary software on your computer and verify that it's working correctly. A properly configured environment is the essential first step for any AI developer. By the end, you'll run your first line of machine learning code.
+    </p>
+</div>
+
+### Background
+Instead of installing tools one by one, we will use Anaconda. Anaconda is a free, all-in-one distribution that bundles Python, the Jupyter Notebook environment, and hundreds of the most popular data science and machine learning libraries into a single, easy-to-manage package.
+
+Alternative: Cloud Environment
+If you have trouble with a local installation or prefer a cloud-based setup, you can use Google Colab. It provides a free Jupyter Notebook environment that runs entirely in your browser.
+
+<a href="https://colab.research.google.com/" target="_blank" class="colab-button">Open Google Colab</a>
+
+### Instructions
+<div class="mlp">
+    <h3 class="mlp-title">Step-by-Step Setup Guide</h3>
+    <ol class="mlp-steps">
+        <li class="mlp-card">
+            <h3>Step 1: Download and Install Anaconda</h3>
+            <p>Go to the official <a href="https://www.anaconda.com/download" target="_blank">Anaconda Distribution download page</a>. Download the installer for your operating system (Windows, macOS, or Linux). Run the installer and follow the on-screen instructions, using the default settings.</p>
+        </li>
+        <li class="mlp-card">
+            <h3>Step 2: Launch Jupyter Notebook</h3>
+            <p>Once installed, open the <strong>Anaconda Navigator</strong> application. From the Navigator's home screen, you will see several applications. Find <strong>Jupyter Notebook</strong> and click the "Launch" button. This will open a new tab in your web browser showing the Jupyter file navigator.</p>
+        </li>
+        <li class="mlp-card">
+            <h3>Step 3: Create Your First Notebook</h3>
+            <p>In the Jupyter browser tab, navigate to a folder where you want to save your course work. Click the "New" button in the top-right corner and select "Python 3 (ipykernel)" from the dropdown. A new, untitled notebook will open in another tab.</p>
+        </li>
+        <li class="mlp-card">
+            <h3>Step 4: The "Hello World" of Machine Learning</h3>
+            <p>In the first cell of your new notebook, copy and paste the following Python code. This code imports the famous scikit-learn library, loads a classic sample dataset (the Iris flower dataset), and prints its shape.</p>
+```python
+            # Import the datasets module from scikit-learn
+            from sklearn import datasets
+
+            # Load the iris dataset
+            iris = datasets.load_iris()
+
+            Print the shape of the data (rows, columns)
+            print("Dataset loaded successfully!")
+            print("Shape of the data:", iris.data.shape)
+```
+            <p>To run the code, click inside the cell and press <strong>Shift + Enter</strong>.</p>
+
+        </li>
+    </ol>
+</div>
+
+Verification
+If your setup is correct, you should see the following output printed below the code cell.
+
+<div class="expected-output">
+    Dataset loaded successfully!
+    Shape of the data: (150, 4)
+</div>
+
+This output confirms that Python, Jupyter, and scikit-learn are all installed and working together correctly. The (150, 4) means the dataset has 150 rows (samples) and 4 columns (features).
+
+Congratulations! You now have a fully functional AI development environment. Don't forget to save your notebook.

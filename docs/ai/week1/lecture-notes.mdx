@@ -1,0 +1,183 @@
+---
+id: lecture-notes
+title: Lecture Notes
+hide_title: true
+sidebar_position: 1
+sidebar_label: Intro to AI and ML
+sidebar_class_name: icon-lecture
+---
+import ModuleBanner from '@site/src/components/ai/ai-banner';
+import DefinitionBox from '@site/src/components/custom-admonitions/DefinitionBox';
+import {
+    KeyPoints,
+    KP,
+} from '@site/src/components/custom-admonitions/KeyPoints';
+
+<ModuleBanner />
+
+# Introduction to  Artificial Intelligence
+
+<DefinitionBox term="Artificial Intelligence Defined!">
+    Artificial Intelligence (AI) is a broad area of computer science that focuses on creating smart machines
+    capable of performing tasks that typically require human intelligence.
+</DefinitionBox>
+
+## Types of AI Based on Capabilities
+
+
+<div className="concept-card">
+    <h3>1. Artificial Narrow Intelligence (ANI) </h3>
+    <p>
+        * Also known as ***Weak AI***, this is the only type of AI we have successfully created so far.
+        * ANI is designed and trained to perform a single, specific task.
+        * While it can be incredibly powerful and outperform humans at that one task, it operates within a pre-defined, limited range and cannot perform tasks outside its scope.
+    </p>
+    <div className="example-box">
+        <strong>Examples:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    **Voice Assistants** like Siri and Alexa - They are great at answering questions and setting reminders but can't have a deep, meaningful conversation.
+                </li>
+                <li>**Self-driving cars** - They excel at navigating roads but can't decide what to make for dinner. </li>
+                <li>**Spam filters** in your email -  They are highly effective at identifying junk mail but can't write an email for you.</li>
+            </ul>
+    </div>
+</div>
+<div className="concept-card">
+    <h3>2. Artificial General Intelligence (AGI) </h3>
+    <p>
+        * Also known as Strong AI, this is the type of AI often seen in science fiction.
+        * AGI refers to a machine with the ability to understand, learn, and apply its intelligence to solve any problem, much like a human being.
+        * An AGI system would have consciousness and the cognitive abilities to think abstractly, reason through unfamiliar situations, and draw upon past experiences to inform new decisions.
+        * We have not achieved AGI yet.
+        * It remains a theoretical goal for AI researchers.
+    </p>
+    <div className="example-box">
+        <strong>Example (Fictional):</strong>
+        <ul className={"no-bullets"}>
+            <li>
+                **Chappie** (Chappie, 2015) - Demonstrates
+                <ul>
+                    <li>Learning beyond programming (he teaches himself language, ethics, and creativity).</li>
+                    <li>Consciousness and emotions (he develops self-awareness and moral reasoning).</li>
+                    <li>Adaptability (he can handle unfamiliar situations and make independent decisions. </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div className="concept-card">
+    <h3>3. Artificial Superintelligence (ASI)</h3>
+    <p>
+        * This is a hypothetical stage of AI where a machine's intelligence would far surpass that of the brightest and most gifted human minds.
+        * An ASI would be superior to humans in virtually every field, including scientific creativity, general wisdom, and social skills.
+        * The concept of ASI raises many philosophical and ethical questions about the future of humanity and our relationship with technology.
+    </p>
+    <div className="example-box">
+        <strong>Examples (Fictional):</strong>
+        <ul className={"no-bullets"}>
+            <li>
+                **Skynet** - From the Terminator Series
+            </li>
+            <li>
+                **HAL 9000** - From 2001: A Space Odyssey
+            </li>
+        </ul>
+    </div>
+</div>
+
+## AI as an Umbrella Term
+AI is a general concept for a machine's ability to **imitate intelligent human behavior**.
+
+To achieve this, researchers have developed many specialized areas and techniques. A single "AI" application, like a self-driving car, doesn't just use one technology; it uses a combination of different AI branches working together.
+
+For example, it uses **Computer Vision** to "see" the road and **Machine Learning** to make decisions based on what it sees. This collection of diverse yet interconnected sub-fields is why AI is considered an umbrella term.
+
+### Major Branches of AI
+Here are the most significant branches that fall under the AI umbrella:
+
+<KeyPoints variant="primary" icon="❖">
+    <KP term="1. Machine Learning (ML)">
+        * This is currently the most common and impactful branch of AI.
+        * Machine Learning focuses on creating algorithms that allow computers to **learn from data** without being explicitly programmed.
+        * Instead of writing rules, developers "train" an ML model on a large dataset, and the model learns to identify patterns and make predictions on its own.
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    A spam filter learns to recognize junk mail by analyzing thousands of emails you've marked as spam.
+                </li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>
+<KeyPoints variant="primary" icon="❖">
+    <KP term="2. Deep Learning (DL)">
+        * Deep Learning is a more advanced sub-field of Machine Learning.
+        * It uses complex structures called **artificial neural networks**, which are inspired by the human brain.
+        * These networks have many layers, allowing them to learn from vast amounts of data in a more sophisticated way, recognizing intricate patterns in images, sounds, and text.
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    Facial recognition on your phone or auto-tagging friends in photos on social media.
+                </li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>
+<KeyPoints variant="primary" icon="❖">
+    <KP term="3. Natural Language Processing (NLP)">
+        * NLP is the branch of AI that gives machines the ability to **read, understand, and generate human language** (both text and speech).
+        * The goal is to bridge the communication gap between humans and computers.
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    Voice assistants like Siri and Google Assistant, as well as translation services like Google Translate.
+                </li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>
+<KeyPoints variant="primary" icon="❖">
+    <KP term="4. Computer Vision">
+        * This field enables computers to "see" and interpret the visual world.
+        * Computer Vision systems can analyze images and videos to identify objects, people, and places, and then react to what they "see."
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    Self-driving cars identifying pedestrians and traffic signs, or QR code scanners.
+                </li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>
+<KeyPoints variant="primary" icon="❖">
+    <KP term="5. Robotics">
+        *  Robotics involves the design, construction, and operation of robots.
+        *  While not all robots use AI, advanced robotics integrates AI branches like Computer Vision and Machine Learning to allow robots to interact intelligently with the physical world, navigate complex environments, and perform delicate tasks.
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>
+                    Advanced manufacturing robots that can handle variable tasks, or autonomous drones used for delivery.
+                </li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>
+
+<KeyPoints variant="primary" icon="❖">
+    <KP term="6. Expert Systems">
+        * One of the earlier branches of AI, Expert Systems are designed to **emulate the decision-making ability of a human expert** in a specific, narrow field.
+        * They work by using a knowledge base of facts and rules to solve complex problems.
+        <div className="example-box">
+            <strong>Example:</strong>
+            <ul className={"no-bullets"}>
+                <li>Medical diagnosis systems that suggest possible illnesses based on a patient's symptoms.</li>
+            </ul>
+        </div>
+    </KP>
+</KeyPoints>

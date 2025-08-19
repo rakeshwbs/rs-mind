@@ -1,0 +1,1251 @@
+---
+id: lecture-notes
+title: Lecture Notes
+hide_title: true
+sidebar_position: 1
+sidebar_label: ML Workflow
+sidebar_class_name: icon-lecture
+---
+import ModuleBanner from '@site/src/components/ai/ai-banner';
+import DefinitionBox from '@site/src/components/custom-admonitions/DefinitionBox';
+import CenteredImage from '@site/src/components/image-changer/CenteredImage';
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+import {
+    KeyPoints,
+    KP,
+} from '@site/src/components/custom-admonitions/KeyPoints';
+
+<ModuleBanner />
+
+
+
+## Week 3: From Idea to Impact: A Practical Guide to the ML Workflow
+
+#### Date: Saturday, 27 September 2025
+
+---
+
+<section class="ai-card intro-card">
+  <h3>Introduction: The Project Blueprint</h3>
+  <p>
+    The goal of this introductory segment is to frame the entire lecture and
+    motivate the students by explaining why a structured workflow is the key
+    differentiator between academic exercises and successful, real-world machine
+    learning systems.
+  </p>
+  <p>
+    We begin by addressing a common misconception. Many people new to the field
+    imagine that a data scientist's job is focused almost exclusively on
+    building and tuning complex models. The reality is quite different. The work
+    of a data scientist is often compared to an iceberg: the small, visible tip
+    is the model itself, but the massive, hidden foundation beneath the surface
+    is the less glamorous but essential work of defining the problem, gathering
+    data, cleaning it, and engineering features. This lecture is about
+    understanding the entire iceberg, not just the tip.
+  </p>
+  <KeyPoints variant="primary" icon="❖">
+    <KP term="Case Study">
+      A telecommunications company is losing customers to competitors, a problem
+      known as customer churn. It costs far more to acquire a new customer than
+      to retain an existing one, so they have hired us to build a system that
+      can predict which of their current customers are at high risk of churning
+      in the next month. This will allow their marketing team to proactively
+      offer these specific customers special promotions to convince them to
+      stay.
+    </KP>
+  </KeyPoints>
+</section>
+# Part I - Data Foundations
+## Stage 1 - Data Collection
+
+<section class="ai-card stage-card">
+  <h3>What is it?</h3>
+
+The very first stage of any real-world project is **Data Collection**. This is where data scientists act as detectives to identify and acquire all the data needed to solve the problem. In a corporate environment, this is a complex process involving writing sophisticated database queries, connecting to third-party APIs, and navigating crucial legal and privacy requirements to ensure compliance.
+
+This stage alone can take weeks or months and is a deep topic, often falling under the specialized field of Data Engineering.
+
+For our lecture today, to ensure we can focus on the core machine learning skills, we are going to bypass the complexities of live data collection. Instead, we will work with a classic, pre-collected, and publicly available dataset that is perfect for learning how to predict customer churn.
+
+The dataset is called the **'Telco Customer Churn'** dataset, and you can access and download it from Kaggle at the following link:
+
+**Link:** `https://www.kaggle.com/datasets/blastchar/telco-customer-churn`
+
+</section>
+## Stage 2 - Data Cleaning
+<section class="ai-card stage-card">
+  <h3>What is it?</h3>
+  <DefinitionBox term="Data Cleaning Explained!">
+    Data cleaning is the process of identifying and correcting—or
+    removing—errors and inconsistencies from a dataset to improve its quality.
+  </DefinitionBox>
+</section>
+<KeyPoints variant="primary" icon="❖">
+  <KP term="Dirty Data">
+    "Dirty data" is just a casual term for data that has problems. If you're
+    building a house, you can't use crooked beams, cracked bricks, or the wrong
+    kind of cement. It's the same with Machine Learning.
+  </KP>
+</KeyPoints>
+Here are the most common types of "dirt" you'll find:
+
+<article className="cap-card">
+  <h4>Missing Values</h4>
+  <p>
+    Empty cells where data should be. Imagine a survey where someone didn't
+    answer their age.
+  </p>
+</article>
+<article className="cap-card">
+  <h4>Incorrect Data Types</h4>
+  <p>
+    A number stored as text (like "10" instead of 10) or a date stored as a
+    random string.
+  </p>
+</article>
+<article className="cap-card">
+  <h4>Duplicates</h4>
+  <p>The exact same piece of information recorded more than once.</p>
+</article>
+<article className="cap-card">
+  <h4>Outliers</h4>
+  <p>
+    A value that is wildly different from the others. For example, in a dataset
+    of house prices in a neighborhood, an entry for $50 billion would be an
+    outlier.
+  </p>
+</article>
+<article className="cap-card">
+  <h4>Inconsistent Formatting</h4>
+  <p>
+    "California," "CA," and "Calif." all mean the same thing, but a computer
+    treats them as different.
+  </p>
+</article>
+
+---
+
+### Handling Missing Data
+
+Missing data simply means you have empty spots or gaps in your dataset.
+
+<KeyPoints variant="primary" icon="❖">
+  <KP term="Example">
+    <p> Imagine you have a dataset about people for a health study, but some participants didn't fill in their weight.</p>
+
+    It might look something like this:
+    | Name    | Age | Weight (kg) | Height (cm) |
+    |---------|----:|------------:|------------:|
+    | Alice   |  28 |          65 |         168 |
+    | Bob     |  35 |          NA |         175 |
+    | Charlie |  42 |          82 |          NA |
+    | Diana   |  29 |          70 |         171 |
+
+    The "NA" (Not Available) values for Bob's weight and Charlie's height are missing data.
+    Leaving them as they are can cause errors or lead to incorrect analysis because many machine learning algorithms don't know how to handle them.
+
+    You generally have two main choices when you find missing values:
+    1. <strong>Remove Them:</strong> You could delete the entire row for Bob and Charlie.
+
+    2. <strong>Fill Them In (Imputation):</strong> You could make an educated guess about what the missing values might be.
+
+  </KP>
+</KeyPoints>
+
+<section className="ml-tabs" aria-label="Model families">
+  {/* Radios must be siblings of BOTH .segmented and .panels */}
+  <input type="radio" name="mltab" id="t-nn" defaultChecked />
+  <input type="radio" name="mltab" id="t-tree" />
+
+<div className="segmented" role="tablist" aria-label="Families">
+  <label role="tab" htmlFor="t-nn">
+    Strategy 1 - Deletion
+  </label>
+  <label role="tab" htmlFor="t-tree">
+    Strategy 2: Imputation (Filling In)
+  </label>
+</div>
+
+  <div class="panels">
+    <section id="p-nn" role="tabpanel" aria-labelledby="t-nn" class="panel">
+      <h3>Deletion</h3>
+      <p><strong>What is it?</strong></p>
+      <ul>
+        <li> Simply deleting any row that contains a missing value. </li>
+      </ul>
+      <p><strong>Pros:</strong></p>
+      <ul>
+        <li> It's quick and easy.</li>
+      </ul>
+
+      <p><strong>Cons:</strong></p>
+      <ul>
+        <li>Just as you said, you can lose a lot of valuable data, especially if many different rows have missing values. </li>
+        <li>This can lead to a biased model that doesn't represent the real world accurately.</li>
+      </ul>
+
+      <p><strong>Best for:</strong></p>
+      <ul>
+        <li>Very large datasets where losing a few rows doesn't make a difference.</li>
+      </ul>
+
+    </section>
+
+    <section id="p-tree" role="tabpanel" aria-labelledby="t-tree" class="panel">
+      <h3>Imputation (Filling In)</h3>
+      <p>This is a much more common and generally better approach. The goal is to fill the gap with a reasonable
+        estimate. Here are the three simplest ways to do it:</p>
+      <p><strong>Mean Imputation:</strong></p>
+      <ul>
+
+<li>
+  Fill the missing spot with the average of all the other values in that column.
+</li>
+
+  <li>Example: For Bob's weight, we'd calculate the average of Alice (65kg) and Diana (70kg), which is 67.5kg. So we
+    could fill in 67.5kg for Bob.</li>
+        <li>Best for: Numerical data that is fairly symmetrical (doesn't have extreme outliers).</li>
+      </ul>
+
+      <p><strong>Median Imputation:</strong></p>
+      <ul>
+        <li>Typically the best-performing architecture for structured (tabular) data.</li>
+        <li>Relatively fast and efficient to train compared to deep learning.</li>
+        <li>Can provide "feature importance" scores, offering some level of interpretability.</li>
+      </ul>
+
+      <p><strong>Mode Imputation:</strong></p>
+      <ul>
+
+        <li>Fill the missing spot with the most frequent value in the column.</li>
+
+        <li>Example: If you had a Shirt Color column with values [Blue, Red, NA, Red, Green, Red], you would fill the
+          missing value with 'Red' because it appears most often.</li>
+
+        <li>Best for: Categorical data (non-numerical data like colors, cities, or types).</li>
+      </ul>
+    </section>
+
+  </div>
+</section>
+
+---
+
+
+### Dealing with Duplicate Data
+
+This one is pretty straightforward. Duplicate data means having the exact same row appear more than once in your dataset.
+
+|    ID | Name    |   Order   |
+| ----: | ------- | :-------: |
+|     1 | Alice   |   Pizza   |
+|     2 | Bob     |   Salad   |
+|     3 | Charlie |   Pizza   |
+| **2** | **Bob** | **Salad** |
+
+That last row for Bob is a complete duplicate of the second row.
+
+<KeyPoints variant="primary" icon="❖">
+  <KP term="What is this a problem?">
+    <p>Imagine you're training a machine learning model. If Bob's order is in your data twice, the model will learn from his preference for "Salad" two times. This gives Bob's choice more importance than it should have, which can bias your model's predictions. It's like letting one person vote twice in an election. The fix is simple: you find and remove the duplicate rows, keeping only one unique entry.</p>
+
+  </KP>
+</KeyPoints>
+
+### Managing Outliers
+
+An outlier is a data point that is significantly different from other observations. It's a value that lies an abnormal distance from other values in a random sample from a population.
+
+Remember our example of the CEO's salary being much higher than everyone else's? That salary was an outlier.
+
+<KeyPoints variant="primary" icon="❖">
+  <KP term="What are they a problem?">
+    Just like with the CEO's salary skewing the mean, outliers can pull a whole machine learning model off course. Imagine you're trying to find the relationship between the number of hours a student studies and their exam score.
+
+    Look at the chart above. Most data points show a clear trend: study more, get a higher score. But look at that one point in the bottom right—a student who studied for 10 hours but got a score of 20. That's an outlier. It could be a data entry error, or maybe something unusual happened to that student.
+
+    If you include that outlier when training your model, it might create a line of best fit that is "pulled down" by that one strange point, making it less accurate for all the other students.
+
+  </KP>
+</KeyPoints>
+
+<KeyPoints variant="primary" icon="❖">
+  <KP term="When should we keep the outlier?">
+    One huge reason to keep an outlier is if it represents a real and important
+    event. Think about fraud detection. Most transactions are normal, but the
+    few fraudulent ones are, by definition, outliers. In that case, the outlier
+    is the most important piece of data in your whole dataset!
+  </KP>
+</KeyPoints>
+
+So, what can you do if you don't want to delete it?
+
+<div className="cap-grid-3x2">
+  <article className="cap-card">
+    <h4>Transformation</h4>
+    <p>
+      You can apply a mathematical function (like a logarithm) to the data. This
+      can pull the extreme values closer to the rest of the data, reducing their
+      skewing effect without deleting them.
+    </p>
+  </article>
+  <article className="cap-card">
+    <h4>Capping (or Winsorizing)</h4>
+    <p>
+      You can "cap" the outliers. For example, you might decide that any salary
+      above `$250,000` will be treated as if it were `$250,000`. This preserves
+      the record but limits the outlier's influence.
+    </p>
+  </article>
+  <article className="cap-card">
+    <h4>Investigate</h4>
+    <p>
+      Sometimes an outlier is just a data entry error (e.g., someone's age is
+      listed as 200 instead of 20). If you can, you should correct it.
+    </p>
+  </article>
+</div>
+
+
+
+### Fixing Inconsistent Data and Formatting
+
+<section class="dq-card" aria-label="Data Quality Pitfalls">
+    <h3>Why the same thing can look different in your data?</h3>
+    <p>This is a very common and sometimes sneaky problem. It happens when data that means the same thing is recorded in different ways. A computer is very literal, so it sees "USA" and "U.S.A." as two completely different countries.</p>
+
+    <p>Here are the usual suspects:</p>
+
+    <ul class="dq-list">
+        <li>
+            <strong>Inconsistent Categories:</strong>
+            <ul class="dq-sub">
+                <li><code>State</code> column has "California", "california", "CA", and "Calif."</li>
+                <li><code>Gender</code> column has "Male", "M", and "male".</li>
+            </ul>
+        </li>
+
+        <li>
+            <strong>Structural Errors:</strong>
+            <ul class="dq-sub">
+                <li><strong>Extra whitespace:</strong> <code>" apple"</code> instead of <code>"apple"</code>. This is almost invisible to the human eye!</li>
+                <li><strong>Weird date formats:</strong> "01-25-2023", "25/01/2023", and "Jan 25, 2023".</li>
+            </ul>
+        </li>
+
+        <li>
+            <strong>Incorrect Data Types:</strong>
+            <ul class="dq-sub">
+                <li>A price stored as text: <code>"$9.99"</code> (a string) instead of <code>9.99</code> (a number). You can't do math on the text version!</li>
+            </ul>
+        </li>
+
+    </ul>
+
+    <p>Fixing these usually involves writing code to standardize the values—like converting everything to lowercase, trimming whitespace, and choosing one single format for categories (e.g., making all state entries the two-letter abbreviation).</p>
+</section>
+<KeyPoints variant="primary" icon="❖">
+    <KP term="Example">
+        | Product_ID | Category | Price | In_Stock |
+        |----------:|---------|------:|---------|
+        | 101 | " Phone" | $999  | True  |
+        | 102 | "Tablet" | $450  | TRUE  |
+        | 103 | "phone"  | $1200 | False |
+        | 104 | "Laptop" | "850" | True  |
+    </KP>
+</KeyPoints>
+
+## Stage 3: Exploratory Data Analysis (EDA)
+
+<section class="eda-hero" aria-label="Exploratory Data Analysis (EDA)">
+    <header class="eda-head">
+        <h3 class="eda-title">Exploratory Data Analysis (EDA)</h3>
+        <p class="eda-sub">Initial investigation on a freshly cleaned dataset</p>
+    </header>
+
+    <p>
+        At its heart, <strong>Exploratory Data Analysis (EDA)</strong> is the process
+        of using summary statistics and visualizations to understand a dataset's main
+        characteristics. It is the stage where the data scientist studies the data
+        before modeling.
+    </p>
+
+    <p>
+        Consider the approach of a careful investigator. Before solving the case, the
+        investigator first surveys the situation:
+    </p>
+
+    <ul class="eda-bullets eda-bullets--scene">
+        <li>They measure distances and take notes.</li>
+        <li>They photograph the scene from different angles.</li>
+        <li>They identify key pieces of evidence.</li>
+        <li>They start forming theories about what might have happened.</li>
+    </ul>
+
+    <p>
+        That mirrors EDA. You are not building a predictive model yet; you are
+        examining and understanding.
+    </p>
+
+    <p class="eda-lead">The main goals are:</p>
+
+    <ul class="eda-bullets eda-bullets--goals">
+        <li><strong>Discover patterns:</strong> Is there a trend of sales increasing in the summer?</li>
+        <li><strong>Spot anomalies:</strong> Are there any outliers we missed during cleaning?</li>
+        <li><strong>Check assumptions:</strong> Does our data follow a distribution that some models require?</li>
+        <li><strong>Formulate hypotheses:</strong> Based on what we see, we might guess that age is a key factor in customer purchases; EDA helps form this initial guess for later testing.</li>
+    </ul>
+</section>
+
+<section className="uni-card" aria-label="Univariate Analysis: Looking at One Variable">
+    <header className="uni-head">
+        <h3>Univariate Analysis: Looking at One Variable</h3>
+        <p className="uni-kicker">Start by understanding each feature on its own before studying interactions.</p>
+    </header>
+
+    <p>
+        The simplest way to start exploring is to look at your variables{' '}
+        <strong>one at a time</strong>. This is called{' '}
+        <strong>univariate analysis</strong> (“uni” means one). It helps you
+        understand the characteristics of each individual feature before you look at
+        how they interact.
+    </p>
+
+    <p>
+        Let’s start with <strong>categorical variables</strong>. These are variables
+        that represent distinct groups or categories, like car brands, city names, or
+        T-shirt colors.
+    </p>
+
+    <p>
+        The best way to analyze a single categorical variable is with a{' '}
+        <strong>bar chart</strong> (also called a count plot). It shows you how many
+        times each category appears in your data.
+    </p>
+
+    <p>
+        For example, if you had a dataset of T-shirt sales, you could make a bar chart
+        of the <em>Color</em>
+        column to quickly see which color is the most popular. This simple chart
+        instantly tells you that blue is the best-selling color and green is the least
+        popular—a basic but powerful first insight.
+    </p>
+
+    {/* ---- Animated CSS-only bar chart demo ---- */}
+
+    <figure className="uni-demo" aria-label="Example bar chart for a single categorical variable">
+        <figcaption>Example: T-Shirt Color Counts</figcaption>
+        <div className="bars">
+            <div className="bar blue"  data-label="Blue"  data-value="82%" style={{ '--h': 82 }} />
+            <div className="bar red"   data-label="Red"   data-value="64%" style={{ '--h': 64 }} />
+            <div className="bar black" data-label="Black" data-value="48%" style={{ '--h': 48 }} />
+            <div className="bar green" data-label="Green" data-value="21%" style={{ '--h': 21 }} />
+        </div>
+    </figure>
+</section>
+
+<section className="numviz-card" aria-label="Analyzing a Single Numerical Variable">
+    <header className="nv-head">
+        <h3>Analyzing a Single Numerical Variable</h3>
+        <p className="nv-kicker">Understand the distribution, center, spread, and potential outliers.</p>
+    </header>
+
+    <p>
+        For numerical variables (age, temperature, price), we want to understand their{' '}
+        <strong>distribution</strong>: Where is the center? How spread out is it? Are
+        there outliers?
+    </p>
+    <p>
+        Two essential tools are the <strong>histogram</strong> and the{' '}
+        <strong>box plot</strong>.
+    </p>
+
+    <div className="nv-grid">
+        {/* ================= Histogram ================= */}
+        <article className="nv-card">
+            <h4>Histograms</h4>
+            <p>A histogram groups numeric values into bins and plots the count in each bin—ideal for seeing the shape of your data.</p>
+
+            <figure className="nv-hist">
+                <figcaption>Example: Ages (synthetic)</figcaption>
+                <div className="nv-bars">
+                    <div className="bar" data-label="10–20" data-value="6"  style={{ '--h': 25 }} />
+                    <div className="bar" data-label="20–30" data-value="14" style={{ '--h': 58 }} />
+                    <div className="bar" data-label="30–40" data-value="22" style={{ '--h': 90 }} />
+                    <div className="bar" data-label="40–50" data-value="17" style={{ '--h': 70 }} />
+                    <div className="bar" data-label="50–60" data-value="9"  style={{ '--h': 38 }} />
+                    <div className="bar" data-label="60–70" data-value="3"  style={{ '--h': 15 }} />
+                </div>
+            </figure>
+            <p className="nv-note">The tallest bin suggests the most common ages cluster around the mid-30s to mid-40s.</p>
+        </article>
+
+        {/* ================= Box Plot ================= */}
+        <article className="nv-card">
+            <h4>Box Plots</h4>
+            <p>A box plot summarizes the data with five numbers—min, Q1, median, Q3, max—making spread and outliers easy to see.</p>
+
+            {/* Single horizontal box plot driven by CSS variables */}
+            <figure className="nv-boxplot">
+                <figcaption>Example: Ages (five-number summary)</figcaption>
+
+                {/* Configure the summary via CSS variables (percent scale 0–100) */}
+                <div
+                    className="bx-axis"
+                    style={{ '--min': 8, '--q1': 30, '--med': 52, '--q3': 74, '--max': 92 }}
+                >
+                    <div className="bx-track" />
+
+                    {/* whisker rods */}
+                    <div className="bx-rod left"  style={{ '--start': 8,  '--end': 30 }} />
+                    <div className="bx-rod right" style={{ '--start': 74, '--end': 92 }} />
+
+                    {/* endpoints */}
+                    <div className="bx-cap min" style={{ '--pos': 8  }} />
+                    <div className="bx-cap max" style={{ '--pos': 92 }} />
+
+                    {/* box and median */}
+                    <div className="bx-box"   />
+                    <div className="bx-med"   />
+
+                    {/* chips */}
+                    <span className="bx-chip" style={{ '--pos': 8  }}>Min</span>
+                    <span className="bx-chip" style={{ '--pos': 30 }}>Q1</span>
+                    <span className="bx-chip" style={{ '--pos': 52 }}>Median</span>
+                    <span className="bx-chip" style={{ '--pos': 74 }}>Q3</span>
+                    <span className="bx-chip" style={{ '--pos': 92 }}>Max</span>
+                </div>
+            </figure>
+
+            <ul className="nv-legend">
+                <li><strong>Median</strong>: middle value.</li>
+                <li><strong>Box</strong>: middle 50% (Q1–Q3).</li>
+                <li><strong>Whiskers</strong>: span from quartiles to min/max.</li>
+                <li><strong>Outliers</strong>: points beyond whiskers (not shown here).</li>
+            </ul>
+        </article>
+
+    </div>
+</section>
+# Part 2: Modeling and Evaluation
+
+## Stage 4: Feature Engineering
+<section className="fe-block" aria-label="Feature Engineering">
+    <header className="fe-head">
+        <h2 className="fe-title">Feature Engineering</h2>
+        <p className="fe-lead">
+            Feature engineering is the process of using your domain knowledge to transform raw data into informative features
+            that better represent the underlying problem for your machine learning model.
+        </p>
+        <p className="fe-text">
+            It's often considered the most creative part of the workflow and is one of the biggest drivers of a model's
+            success. Even the most powerful algorithm will fail if it's given poor features.
+        </p>
+        <p className="fe-text">
+            Analogy: Think of your raw data as basic ingredients (flour, eggs, sugar). A model can't do much with them
+            separately. Feature engineering is the "recipe"—it's how you combine and transform those ingredients into a
+            prepared cake batter that the "oven" (the model) can actually work with.
+        </p>
+    </header>
+
+    <h3 className="fe-h3">Key Topics to Cover</h3>
+    <p className="fe-text">This stage typically involves three main activities:</p>
+
+    <div className="fe-grid">
+        <article className="fe-card reveal">
+            <div className="fe-badge" aria-hidden="true">1</div>
+            <h4 className="fe-card-title">Encoding Categorical Variables</h4>
+            <p className="fe-card-text">
+                How to convert non-numeric data (like "red", "green", "blue") into numbers that a model can understand.
+            </p>
+            <div className="fe-tags" aria-hidden="true">
+                <span className="tag">One-Hot</span><span className="tag">Ordinal</span><span className="tag">Target</span>
+            </div>
+        </article>
+
+        <article className="fe-card reveal">
+            <div className="fe-badge" aria-hidden="true">2</div>
+            <h4 className="fe-card-title">Scaling Numerical Variables</h4>
+            <p className="fe-card-text">
+                How to put all numeric features onto a similar scale to prevent some features from unfairly dominating others.
+            </p>
+            <div className="fe-meter" role="img" aria-label="Scaling illustration">
+                <span style={{'--w': '72%'}} />
+            </div>
+            <div className="fe-tags" aria-hidden="true">
+                <span className="tag">Standardize</span><span className="tag">Min-Max</span><span className="tag">Robust</span>
+            </div>
+        </article>
+
+        <article className="fe-card reveal">
+            <div className="fe-badge" aria-hidden="true">3</div>
+            <h4 className="fe-card-title">Creating New Features</h4>
+            <p className="fe-card-text">
+                How to combine or extract information from existing columns to create new, more insightful features (e.g.,
+                creating a day_of_the_week feature from a date column).
+            </p>
+            <ul className="fe-list">
+                <li>Aggregations (counts, ratios, lags)</li>
+                <li>Date/time extracts (hour, weekday, season)</li>
+                <li>Domain compositions (price per unit, density)</li>
+            </ul>
+        </article>
+    </div>
+</section>
+<section className="enc-block" aria-label="Encoding Categorical Variables">
+    <header className="enc-head">
+        <h2 className="enc-title">Encoding Categorical Variables 🔢</h2>
+        <p className="enc-text">
+            <strong>Categorical encoding</strong> is the process of converting text-based categorical labels into numbers so that a
+            machine learning algorithm can understand and work with them. Most algorithms are built on mathematical equations and
+            simply can't process text like <code>"red"</code> or <code>"France"</code>.
+        </p>
+        <p className="enc-text">
+            Before choosing an encoding method, you must first identify the type of categorical data you have.
+        </p>
+    </header>
+
+    <h3 className="enc-h3">Two Types of Categorical Data</h3>
+    <ol className="enc-types reveal">
+        <li>
+            <strong>Nominal Data:</strong> These are categories that have <strong>no natural order or rank</strong>. For example, a
+            <code> Color</code> column with values like <code>"Red"</code>, <code>"Green"</code>, and <code>"Blue"</code>. There's no
+            inherent sense in which "Green" is greater than or less than "Red".
+        </li>
+        <li>
+            <strong>Ordinal Data:</strong> These are categories that have a <strong>meaningful, intrinsic order</strong>. For example,
+            a <code>T-Shirt Size</code> column with values like <code>"Small"</code>, <code>"Medium"</code>, and <code>"Large"</code>.
+            Here, we know that <code>Large &gt; Medium &gt; Small</code>.
+        </li>
+    </ol>
+    <p className="enc-note">The type of data you have determines the best encoding strategy to use.</p>
+
+    <hr className="enc-rule" />
+
+    ### Common Encoding Techniques
+
+    <p className="enc-text">Here are the two most fundamental techniques every data scientist must know.</p>
+
+    <div className="enc-grid">
+        {/* ================= One-Hot ================= */}
+        <article className="enc-card reveal" aria-label="One-Hot Encoding">
+            <div className="enc-badge" aria-hidden="true">1</div>
+            <h3 className="enc-card-title">1. One-Hot Encoding</h3>
+            <p className="enc-card-lead">This technique is the standard and best approach for <strong>nominal data</strong> (categories with no order).</p>
+
+            <p><strong>How it works:</strong> It creates a new binary (0 or 1) column for each unique category in the original column.</p>
+
+            <p><strong>Example:</strong> Imagine a <code>Color</code> column.</p>
+
+            <figure className="enc-table">
+                <figcaption>Input</figcaption>
+                <table>
+                    <thead><tr><th>Color</th></tr></thead>
+                    <tbody>
+                    <tr><td>Red</td></tr>
+                    <tr><td>Blue</td></tr>
+                    <tr><td>Green</td></tr>
+                    <tr><td>Blue</td></tr>
+                    </tbody>
+                </table>
+            </figure>
+
+            <figure className="enc-table enc-out">
+                <figcaption>After One-Hot Encoding</figcaption>
+                <table>
+                    <thead>
+                    <tr><th>Color_Red</th><th>Color_Blue</th><th>Color_Green</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>1</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </figure>
+
+            <ul className="enc-procon">
+                <li><strong>Pro:</strong> It's effective because it doesn't create a false sense of order between categories.</li>
+                <li><strong>Con:</strong> It can add a large number of new columns to your dataset if a feature has many unique categories (e.g., a <em>City</em> column with hundreds of cities).</li>
+            </ul>
+        </article>
+
+        {/* ================= Label / Ordinal ================= */}
+        <article className="enc-card reveal" aria-label="Label Encoding">
+            <div className="enc-badge" aria-hidden="true">2</div>
+            <h3 className="enc-card-title">2. Label Encoding (or Ordinal Encoding)</h3>
+            <p className="enc-card-lead">This technique is best used for <strong>ordinal data</strong> (categories with a clear rank).</p>
+
+            <p><strong>How it works:</strong> It assigns a unique integer to each category based on its order.</p>
+
+            <p><strong>Example:</strong> Imagine a <code>Size</code> column.</p>
+
+            <figure className="enc-table">
+                <figcaption>Input</figcaption>
+                <table>
+                    <thead><tr><th>Size</th></tr></thead>
+                    <tbody>
+                    <tr><td>Small</td></tr>
+                    <tr><td>Large</td></tr>
+                    <tr><td>Medium</td></tr>
+                    <tr><td>Small</td></tr>
+                    </tbody>
+                </table>
+            </figure>
+
+            <figure className="enc-table enc-out">
+                <figcaption>After Label Encoding</figcaption>
+                <table>
+                    <thead><tr><th>Size_Encoded</th></tr></thead>
+                    <tbody>
+                    <tr><td>0</td></tr>
+                    <tr><td>2</td></tr>
+                    <tr><td>1</td></tr>
+                    <tr><td>0</td></tr>
+                    </tbody>
+                </table>
+                <figcaption className="enc-foot">
+                    (Here we assume the order <code>Small &lt; Medium &lt; Large</code>)
+                </figcaption>
+            </figure>
+
+            <ul className="enc-procon">
+                <li><strong>Pro:</strong> It's simple and doesn't increase the number of columns.</li>
+                <li><strong>Con (Important Warning):</strong> You should <strong>avoid</strong> using Label Encoding on nominal data. If you were to encode <code>"USA"</code> as <code>0</code>, <code>"France"</code> as <code>1</code>, and <code>"Germany"</code> as <code>2</code>, the model might incorrectly learn that <code>Germany &gt; France</code>, which is meaningless and can harm your model's performance.</li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+## Stage 6 Model Training
+
+<div className="eda-hero">
+    <div className="eda-head">
+        <h2 className="eda-title">The Heart of Machine Learning: Model Training</h2>
+    </div>
+    <p className="eda-sub">
+        Model training is where the magic happens. It's the process of teaching a machine learning model to recognize patterns by showing it a vast amount of data. Think of it as a student studying for an exam; the more examples and practice problems they see, the better they'll perform.
+    </p>
+    <p className="eda-lead">
+        In this section, we'll dive deep into the mechanics of how a model goes from being an uninformed set of parameters to a powerful prediction engine.
+    </p>
+</div>
+
+---
+
+## The Training Loop: A Step-by-Step Journey
+
+At its core, training is an iterative process often called the **"Training Loop."** The model makes a guess, gets feedback on how wrong it was, and adjusts itself to make a better guess next time. This cycle repeats thousands, or even millions, of times.
+
+<div className="mlp">
+    <h3 className="mlp-title">The Iterative Training Process</h3>
+    <ol className="mlp-steps">
+        <li className="mlp-card">
+            <h3>Step 1: Initialization</h3>
+            <p>The model's parameters (weights and biases) are initialized with small random values. At this stage, the model is "ignorant" and its predictions are completely random.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 2: Forward Pass</h3>
+            <p>A batch of data is fed into the model. The model processes this data and makes a prediction ($\hat{y}$). This is called the forward pass.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 3: Calculate Loss</h3>
+            <p>The model's prediction ($\hat{y}$) is compared to the actual true label ($y$) using a <strong>Loss Function</strong>. The result is a single number, the "loss," which quantifies how wrong the model was.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 4: Backward Pass (Backpropagation)</h3>
+            <p>Calculus comes into play! The gradients (derivatives) of the loss with respect to each model parameter are calculated. This tells us how much each parameter contributed to the error.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 5: Update Parameters</h3>
+            <p>An <strong>Optimizer</strong> uses the gradients to update the model's parameters. It nudges them in the direction that will decrease the loss. A key parameter here is the <strong>learning rate</strong>.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 6: Repeat</h3>
+            <p>The entire process repeats from Step 2 with a new batch of data. With each iteration, the model's parameters are fine-tuned, and its predictions become progressively more accurate.</p>
+        </li>
+    </ol>
+</div>
+
+---
+
+## Core Components of Training
+
+Two critical components govern the training loop: the **Loss Function** and the **Optimizer**.
+
+<div className="fe-block">
+    <div className="fe-head">
+        <h2 className="fe-title">Loss Functions & Optimizers</h2>
+        <p className="fe-lead">The Guide and The Driver of Learning</p>
+        <p className="fe-text">The Loss Function acts as a guide, telling the model how far it is from the goal. The Optimizer is the driver, using this guidance to steer the model's parameters in the right direction.</p>
+    </div>
+    <div className="fe-grid">
+        <div className="fe-card reveal">
+            <span className="fe-badge">1</span>
+            <h3 className="fe-card-title">Loss Functions (Cost Functions)</h3>
+            <p className="fe-card-text">Measures the "error" or "badness" of a model's prediction.</p>
+            <ul className="fe-list">
+                <li><strong>Mean Squared Error (MSE):</strong> Commonly used for regression tasks. It penalizes larger errors more heavily. Formula: $ \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $</li>
+                <li><strong>Cross-Entropy Loss:</strong> The standard for classification tasks. It measures the divergence between the predicted probability distribution and the true one.</li>
+            </ul>
+        </div>
+        <div className="fe-card reveal">
+            <span className="fe-badge">2</span>
+            <h3 className="fe-card-title">Optimizers</h3>
+            <p className="fe-card-text">Algorithms that update the model's parameters to minimize the loss function.</p>
+            <ul className="fe-list">
+                <li><strong>Stochastic Gradient Descent (SGD):</strong> The classic, simple optimizer. Updates parameters based on the gradient of a single data sample or a small batch.</li>
+                <li><strong>Adam (Adaptive Moment Estimation):</strong> A very popular and effective optimizer that adapts the learning rate for each parameter, often leading to faster convergence.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+---
+
+## The Engine: Gradient Descent
+
+How does the optimizer *know* how to update the weights? The answer is **Gradient Descent**.
+
+<div class="q-card">
+    <p>Imagine you're lost on a mountain in a thick fog, and you want to get to the lowest valley. You can't see the valley, but you can feel the slope of the ground beneath your feet. The most logical strategy is to take a step in the steepest downhill direction. You repeat this process, and eventually, you'll reach the bottom. This is exactly what Gradient Descent does.</p>
+</div>
+
+- **The Mountain**: The "loss landscape," where height represents the loss value for a given set of weights.
+- **Your Position**: The current values of the model's weights.
+- **The Steepest Downhill Direction**: The negative of the gradient ($-\nabla L$).
+- **The Size of Your Step**: The **learning rate ($\alpha$)**.
+
+The update rule is simple yet powerful:
+
+$$\text{New Weight} = \text{Old Weight} - \alpha \times \text{Gradient}$$
+
+<div className="image-card">
+
+    <figcaption className="image-card__caption">Visualization of Gradient Descent finding the minimum of a loss function.</figcaption>
+</div>
+
+---
+
+## Training Terminology
+
+You'll frequently encounter these terms when discussing model training.
+
+<div className="cap-grid-3x2">
+    <div className="cap-card">
+        <h4>Epoch</h4>
+        <p>One complete pass through the <strong>entire</strong> training dataset. A model typically trains for multiple epochs.</p>
+    </div>
+    <div className="cap-card">
+        <h4>Batch Size</h4>
+        <p>The number of training examples utilized in one iteration. Instead of processing the entire dataset at once, we break it into smaller batches.</p>
+    </div>
+    <div className="cap-card">
+        <h4>Iteration</h4>
+        <p>A single update of the model's parameters. It corresponds to processing one batch of data. If your dataset has 1000 examples and your batch size is 100, one epoch will have 10 iterations.</p>
+    </div>
+</div>
+
+<div className="uni-card">
+    <div className="uni-head">
+        <h3>Visualizing Training Progress</h3>
+        <p className="uni-kicker">Typically, the model's loss decreases as it trains over multiple epochs.</p>
+    </div>
+    <div className="uni-demo">
+        <figcaption>Model Loss per Epoch</figcaption>
+        <div className="bars">
+            <div className="bar" style={{"--h": 90}} data-label="Epoch 1" data-value="0.85"></div>
+            <div className="bar" style={{"--h": 65}} data-label="Epoch 2" data-value="0.52"></div>
+            <div className="bar" style={{"--h": 40}} data-label="Epoch 3" data-value="0.28"></div>
+            <div className="bar" style={{"--h": 25}} data-label="Epoch 4" data-value="0.15"></div>
+        </div>
+    </div>
+</div>
+
+---
+
+## Common Pitfalls: Overfitting & Underfitting
+
+The goal of training is not just to perform well on the data it has seen, but to **generalize** to new, unseen data. Two common failures prevent this.
+
+<div className="dq-card">
+    <h3>The Generalization Challenge</h3>
+    <p>A model's true performance is measured on data it has never encountered before. This is why we split our data into training, validation, and test sets.</p>
+    <ul className="dq-list">
+        <li className="reveal">
+            <strong>Underfitting (High Bias)</strong>
+            <ul className="dq-sub">
+                <li>The model is too simple to capture the underlying patterns in the data.</li>
+                <li>It performs poorly on both the training data and the test data.</li>
+                <li><strong>Analogy:</strong> A student who didn't study at all and fails the exam.</li>
+            </ul>
+        </li>
+        <li className="reveal">
+            <strong>Overfitting (High Variance)</strong>
+            <ul className="dq-sub">
+                <li>The model learns the training data too well, including its noise and random fluctuations.</li>
+                <li>It performs exceptionally well on the training data but fails miserably on new, unseen data.</li>
+                <li><strong>Analogy:</strong> A student who memorizes the answers to the practice questions but doesn't understand the concepts, so they fail the actual exam.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+---
+
+## Solutions: Regularization Techniques
+
+---
+sidebar_label: 'Model Training'
+title: 'The Core of Learning: Model Training'
+---
+
+<div className="eda-hero">
+    <div className="eda-head">
+        <h2 className="eda-title">The Heart of Machine Learning: Model Training</h2>
+    </div>
+    <p className="eda-sub">
+        Model training is where the magic happens. It's the process of teaching a machine learning model to recognize patterns by showing it a vast amount of data. Think of it as a student studying for an exam; the more examples and practice problems they see, the better they'll perform.
+    </p>
+    <p className="eda-lead">
+        In this section, we'll dive deep into the mechanics of how a model goes from being an uninformed set of parameters to a powerful prediction engine.
+    </p>
+</div>
+
+---
+
+## The Training Loop: A Step-by-Step Journey
+
+At its core, training is an iterative process often called the **"Training Loop."** The model makes a guess, gets feedback on how wrong it was, and adjusts itself to make a better guess next time. This cycle repeats thousands, or even millions, of times.
+
+<div className="mlp">
+    <h3 className="mlp-title">The Iterative Training Process</h3>
+    <ol className="mlp-steps">
+        <li className="mlp-card">
+            <h3>Step 1: Initialization</h3>
+            <p>The model's parameters (weights and biases) are initialized with small random values. At this stage, the model is "ignorant" and its predictions are completely random.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 2: Forward Pass</h3>
+            <p>A batch of data is fed into the model. The model processes this data and makes a prediction ($\hat{y}$). This is called the forward pass.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 3: Calculate Loss</h3>
+            <p>The model's prediction ($\hat{y}$) is compared to the actual true label ($y$) using a <strong>Loss Function</strong>. The result is a single number, the "loss," which quantifies how wrong the model was.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 4: Backward Pass (Backpropagation)</h3>
+            <p>Calculus comes into play! The gradients (derivatives) of the loss with respect to each model parameter are calculated. This tells us how much each parameter contributed to the error.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 5: Update Parameters</h3>
+            <p>An <strong>Optimizer</strong> uses the gradients to update the model's parameters. It nudges them in the direction that will decrease the loss. A key parameter here is the <strong>learning rate</strong>.</p>
+        </li>
+        <li className="mlp-card">
+            <h3>Step 6: Repeat</h3>
+            <p>The entire process repeats from Step 2 with a new batch of data. With each iteration, the model's parameters are fine-tuned, and its predictions become progressively more accurate.</p>
+        </li>
+    </ol>
+</div>
+
+---
+
+## Core Components of Training
+
+Two critical components govern the training loop: the **Loss Function** and the **Optimizer**.
+
+<div className="fe-block">
+    <div className="fe-head">
+        <h2 className="fe-title">Loss Functions & Optimizers</h2>
+        <p className="fe-lead">The Guide and The Driver of Learning</p>
+        <p className="fe-text">The Loss Function acts as a guide, telling the model how far it is from the goal. The Optimizer is the driver, using this guidance to steer the model's parameters in the right direction.</p>
+    </div>
+    <div className="fe-grid">
+        <div className="fe-card reveal">
+            <span className="fe-badge">1</span>
+            <h3 className="fe-card-title">Loss Functions (Cost Functions)</h3>
+            <p className="fe-card-text">Measures the "error" or "badness" of a model's prediction.</p>
+            <ul className="fe-list">
+                <li><strong>Mean Squared Error (MSE):</strong> Commonly used for regression tasks. It penalizes larger errors more heavily. Formula: $ \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $</li>
+                <li><strong>Cross-Entropy Loss:</strong> The standard for classification tasks. It measures the divergence between the predicted probability distribution and the true one.</li>
+            </ul>
+        </div>
+        <div className="fe-card reveal">
+            <span className="fe-badge">2</span>
+            <h3 className="fe-card-title">Optimizers</h3>
+            <p className="fe-card-text">Algorithms that update the model's parameters to minimize the loss function.</p>
+            <ul className="fe-list">
+                <li><strong>Stochastic Gradient Descent (SGD):</strong> The classic, simple optimizer. Updates parameters based on the gradient of a single data sample or a small batch.</li>
+                <li><strong>Adam (Adaptive Moment Estimation):</strong> A very popular and effective optimizer that adapts the learning rate for each parameter, often leading to faster convergence.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+---
+
+## The Engine: Gradient Descent
+
+How does the optimizer *know* how to update the weights? The answer is **Gradient Descent**.
+
+<div class="q-card">
+    <p>Imagine you're lost on a mountain in a thick fog, and you want to get to the lowest valley. You can't see the valley, but you can feel the slope of the ground beneath your feet. The most logical strategy is to take a step in the steepest downhill direction. You repeat this process, and eventually, you'll reach the bottom. This is exactly what Gradient Descent does.</p>
+</div>
+
+- **The Mountain**: The "loss landscape," where height represents the loss value for a given set of weights.
+- **Your Position**: The current values of the model's weights.
+- **The Steepest Downhill Direction**: The negative of the gradient ($-\nabla L$).
+- **The Size of Your Step**: The **learning rate ($\alpha$)**.
+
+The update rule is simple yet powerful:
+
+$$\text{New Weight} = \text{Old Weight} - \alpha \times \text{Gradient}$$
+
+<div className="image-card">
+
+    <figcaption className="image-card__caption">Visualization of Gradient Descent finding the minimum of a loss function.</figcaption>
+</div>
+
+---
+
+## Training Terminology
+
+You'll frequently encounter these terms when discussing model training.
+
+<div className="cap-grid-3x2">
+    <div className="cap-card">
+        <h4>Epoch</h4>
+        <p>One complete pass through the <strong>entire</strong> training dataset. A model typically trains for multiple epochs.</p>
+    </div>
+    <div className="cap-card">
+        <h4>Batch Size</h4>
+        <p>The number of training examples utilized in one iteration. Instead of processing the entire dataset at once, we break it into smaller batches.</p>
+    </div>
+    <div className="cap-card">
+        <h4>Iteration</h4>
+        <p>A single update of the model's parameters. It corresponds to processing one batch of data. If your dataset has 1000 examples and your batch size is 100, one epoch will have 10 iterations.</p>
+    </div>
+</div>
+
+<div className="uni-card">
+    <div className="uni-head">
+        <h3>Visualizing Training Progress</h3>
+        <p className="uni-kicker">Typically, the model's loss decreases as it trains over multiple epochs.</p>
+    </div>
+    <div className="uni-demo">
+        <figcaption>Model Loss per Epoch</figcaption>
+        <div className="bars">
+            <div className="bar" style={{"--h": 90}} data-label="Epoch 1" data-value="0.85"></div>
+            <div className="bar" style={{"--h": 65}} data-label="Epoch 2" data-value="0.52"></div>
+            <div className="bar" style={{"--h": 40}} data-label="Epoch 3" data-value="0.28"></div>
+            <div className="bar" style={{"--h": 25}} data-label="Epoch 4" data-value="0.15"></div>
+        </div>
+    </div>
+</div>
+
+---
+
+## Common Pitfalls: Overfitting & Underfitting
+
+The goal of training is not just to perform well on the data it has seen, but to **generalize** to new, unseen data. Two common failures prevent this.
+
+<div className="dq-card">
+    <h3>The Generalization Challenge</h3>
+    <p>A model's true performance is measured on data it has never encountered before. This is why we split our data into training, validation, and test sets.</p>
+    <ul className="dq-list">
+        <li className="reveal">
+            <strong>Underfitting (High Bias)</strong>
+            <ul className="dq-sub">
+                <li>The model is too simple to capture the underlying patterns in the data.</li>
+                <li>It performs poorly on both the training data and the test data.</li>
+                <li><strong>Analogy:</strong> A student who didn't study at all and fails the exam.</li>
+            </ul>
+        </li>
+        <li className="reveal">
+            <strong>Overfitting (High Variance)</strong>
+            <ul className="dq-sub">
+                <li>The model learns the training data too well, including its noise and random fluctuations.</li>
+                <li>It performs exceptionally well on the training data but fails miserably on new, unseen data.</li>
+                <li><strong>Analogy:</strong> A student who memorizes the answers to the practice questions but doesn't understand the concepts, so they fail the actual exam.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+---
+
+## Solutions: Regularization Techniques
+
+**Regularization** refers to a set of techniques used to prevent overfitting by discouraging the model from becoming too complex.
+
+<div className="ml-tabs">
+    <input type="radio" id="t-reg-L1L2" name="regularization-group" defaultChecked />
+    <input type="radio" id="t-reg-dropout" name="regularization-group" />
+    <input type="radio" id="t-reg-earlystop" name="regularization-group" />
+
+    <div className="segmented">
+        <label htmlFor="t-reg-L1L2">L1 & L2 Regularization</label>
+        <label htmlFor="t-reg-dropout">Dropout</label>
+        <label htmlFor="t-reg-earlystop">Early Stopping</label>
+    </div>
+
+    <div className="panels">
+        <div id="p-reg-L1L2" className="panel">
+            <h3>L1 (Lasso) & L2 (Ridge) Regularization</h3>
+            <p>These techniques add a penalty term to the loss function based on the magnitude of the model's weights, discouraging overly complex models.</p>
+            <ul>
+                <li><strong>L2 Regularization (Ridge):</strong> Adds a penalty proportional to the <em>square</em> of the weights' magnitude ($\lambda \sum w_i^2$). It forces weights toward zero but rarely makes them exactly zero. This is the most common form of regularization.</li>
+                <li><strong>L1 Regularization (Lasso):</strong> Adds a penalty proportional to the <em>absolute value</em> of the weights' magnitude ($\lambda \sum |w_i|$). This can shrink some weights to be exactly zero, which makes it useful for feature selection.</li>
+            </ul>
+        </div>
+        <div id="p-reg-dropout" className="panel">
+            <h3>Dropout</h3>
+            <p>A technique used primarily in neural networks. During each training iteration, a random fraction of neurons are temporarily "dropped out" or ignored.</p>
+            <ul>
+                <li>This forces the network to learn more robust and redundant features, as it cannot rely on any single neuron.</li>
+                <li>It's like making a team work on a project where, on any given day, some members might be absent. Everyone has to become more capable and less reliant on others.</li>
+                <li>During testing or inference, the full network is used, but the weights are scaled down to account for the dropout during training.</li>
+            </ul>
+        </div>
+        <div id="p-reg-earlystop" className="panel">
+            <h3>Early Stopping</h3>
+            <p>A simple but highly effective form of regularization. We monitor the model's performance on a separate validation dataset during the training process.</p>
+            <ul>
+                <li>Training is halted as soon as the performance on the validation set stops improving and begins to degrade, even if the training loss is still decreasing.</li>
+                <li>This effectively stops the training process right before the model starts to overfit.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+---
+
+## Hyperparameter Tuning: Finding the Right Settings ⚙️
+
+Before training begins, we must set several "dials" or configurations that control the learning process itself. These are called **hyperparameters**. Unlike model parameters (the weights), they are not learned from the data. Finding the optimal set of hyperparameters is crucial for training a high-performing model.
+
+<div className="fe-block">
+    <div className="fe-head">
+        <h2 className="fe-title">Key Hyperparameters & Tuning Strategies</h2>
+        <p className="fe-lead">Common hyperparameters include the learning rate ($\alpha$), the regularization strength ($\lambda$), the number of epochs, and the batch size.</p>
+    </div>
+    <div className="fe-grid">
+        <div className="fe-card reveal">
+            <span className="fe-badge">1</span>
+            <h3 className="fe-card-title">Grid Search</h3>
+            <p className="fe-card-text">Systematically trains a model for every possible combination of a predefined set of hyperparameter values. It's exhaustive but can be very slow.</p>
+            <ul className="fe-list">
+                <li><strong>Example:</strong> Try learning rates of [0.1, 0.01, 0.001] and batch sizes of [32, 64]. Grid search will train 3x2 = 6 models.</li>
+            </ul>
+        </div>
+        <div className="fe-card reveal">
+            <span className="fe-badge">2</span>
+            <h3 className="fe-card-title">Random Search</h3>
+            <p className="fe-card-text">Instead of trying every combination, it randomly samples a fixed number of combinations from the hyperparameter space. It is often more efficient than grid search.</p>
+            <ul className="fe-list">
+                <li>It's surprisingly effective because often only a few hyperparameters truly matter for model performance.</li>
+            </ul>
+        </div>
+        <div className="fe-card reveal">
+            <span className="fe-badge">3</span>
+            <h3 className="fe-card-title">Advanced Methods</h3>
+            <p className="fe-card-text">More sophisticated techniques like Bayesian Optimization build a probabilistic model to intelligently choose the next best set of hyperparameters to try.</p>
+            <ul className="fe-list">
+                <li>These methods can find better results in fewer iterations than grid or random search.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+---
+
+## Validation and Cross-Validation 📊
+
+How do we tune hyperparameters without biasing our final evaluation? We can't use the test set, as that would be "cheating." The solution is to create a **validation set**.
+
+<div class="ml-splits" style={{"--ml-accent": "#00d3a7", "--ml-accent-2": "#6aa9ff"}}>
+    <h2 class="ml-title">The Three-Way Data Split</h2>
+    <div class="ml-grid">
+        <div class="ml-card">
+            <h4 class="kicker">Training Set (~70%)</h4>
+            <p>The bulk of the data. The model learns the underlying patterns by training exclusively on this set.</p>
+        </div>
+        <div class="ml-card">
+            <h4 class="kicker">Validation Set (~15%)</h4>
+            <p>Used to evaluate the model during hyperparameter tuning and for checks like Early Stopping. The model doesn't train on this data.</p>
+        </div>
+        <div class="ml-card">
+            <h4 class="kicker">Test Set (~15%)</h4>
+            <p>Held back until the very end. It provides the final, unbiased evaluation of how well the trained model generalizes to new, unseen data.</p>
+        </div>
+    </div>
+</div>
+
+### K-Fold Cross-Validation
+
+When you have a smaller dataset, splitting it three ways can leave you with too little data for training. **K-Fold Cross-Validation** is a more robust technique.
+
+<div className="dq-card">
+    <h3>The K-Fold Process</h3>
+    <p>This method ensures that every data point gets to be in a validation set exactly once.</p>
+    <ul className="dq-list">
+        <li className="reveal">
+            <strong>Split:</strong> The training data is split into 'K' equal-sized folds (e.g., K=5 or K=10).
+        </li>
+        <li className="reveal">
+            <strong>Iterate:</strong> A loop runs K times. In each iteration, one fold is used as the validation set, and the remaining K-1 folds are used for training.
+        </li>
+        <li className="reveal">
+            <strong>Average:</strong> The performance metric from each of the K iterations is averaged to produce a single, more reliable performance estimate.
+        </li>
+    </ul>
+</div>
+---
+## Evaluation Metrics: Measuring Success ✅
+
+While the model trains to minimize a **loss function**, we typically use more intuitive **evaluation metrics** to judge its real-world performance. The best metric depends on the type of problem you are solving.
+
+<div className="concept-card">
+    <h3>Classification Metrics (Is it A or B?)</h3>
+</div>
+
+| Metric | Formula | Best for... |
+| :--- | :--- | :--- |
+| **Accuracy** | `(TP + TN) / Total` | Balanced datasets where all classes are equally important. |
+| **Precision** | `TP / (TP + FP)` | Minimizing False Positives. (e.g., spam detection). |
+| **Recall** | `TP / (TP + FN)` | Minimizing False Negatives. (e.g., medical diagnosis). |
+| **F1-Score**| `2 * (Prec * Rec) / (Prec + Rec)` | Finding a balance between Precision and Recall. |
+
+*Where TP=True Positive, TN=True Negative, FP=False Positive, FN=False Negative.*
+
+<br/>
+<div className="concept-card">
+    <h3>Regression Metrics (How much/many?)</h3>
+</div>
+
+| Metric | Formula | Interpretation |
+| :--- | :--- | :--- |
+| **MAE** | $\frac{1}{n} \sum y_i - \hat{y}_i$ | The average absolute error, in the original units of the target. |
+| **MSE** | $\frac{1}{n} \sum (y_i - \hat{y}_i)^2$ | Average squared error. Punishes large errors more heavily. |
+| **R² Score** | $1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}$ | Proportion of variance in the target that is predictable from the features. A value of 1.0 is a perfect prediction. |
+
+
+## Practical Example
+# Week 3 Lab: Hello World
+
+To work on this week's exercise, please open the notebook in Google Colab by clicking the badge below.
+<a
+    href="https://colab.research.google.com/github/rakeshwbs/wbs-courses/blob/main/static/notebooks/week3/wk3-practical-example.ipynb"
+    target="_blank"
+>
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>

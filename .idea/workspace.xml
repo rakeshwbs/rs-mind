@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0c34d040-4f4a-41b4-862d-6e1d9cd81257" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ai/week1/lecture-notes.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ai/week1/lecture-notes.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ai/week2/lab-sheet.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ai/week2/lab-sheet.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docusaurus.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebars.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebarsAi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebarsArt.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebarsBrm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebarsBusm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebarsDsa.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="31JWiP19fHaFGIxOKDnvn6eyfbz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;W:/rs-mind&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Rakesh Sonea\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CodeWithMe&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2025.1.4.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="W:\docu-repo\wbs-courses\static\notebooks\ai" />
+      <recent name="W:\docu-repo\wbs-courses\static\notebooks\week3" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.27812.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0c34d040-4f4a-41b4-862d-6e1d9cd81257" name="Changes" comment="" />
+      <created>1753800963366</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753800963366</updated>
+      <workItem from="1753800965069" duration="481000" />
+      <workItem from="1755242785335" duration="803000" />
+      <workItem from="1755243634818" duration="136000" />
+      <workItem from="1755244162240" duration="2000" />
+      <workItem from="1755244189032" duration="3665000" />
+      <workItem from="1755256430901" duration="7553000" />
+      <workItem from="1755351441236" duration="8951000" />
+      <workItem from="1755426422198" duration="7825000" />
+      <workItem from="1755495927114" duration="6981000" />
+      <workItem from="1755534636555" duration="3422000" />
+      <workItem from="1755541248678" duration="117000" />
+      <workItem from="1755542694165" duration="1812000" />
+      <workItem from="1755544572368" duration="174000" />
+      <workItem from="1755601777391" duration="17852000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
